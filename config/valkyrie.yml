@@ -1,0 +1,7 @@
+development:
+  metadata_adapter: memory
+  storage_adapter: memory
+
+test:
+  metadata_adapter: memory
+  storage_adapter: memory
