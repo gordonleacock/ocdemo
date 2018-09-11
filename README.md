@@ -1,24 +1,17 @@
-# README
+# Valkyrie Demo
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple app created to demonstrate working with [Valkyrie](https://github.com/samvera-labs/valkyrie).
 
-Things you may want to cover:
+## Requirements
+* Ruby 2.4.x
+* PostgreSQL 9.x or later (required by Valkyrie, not currently used in this app)
+  On MacOS: `brew install postgres`
 
-* Ruby version
+## Setup
+* `git clone https://github.com/escowles/vdemo`
+* `cd vdemo`
+* `bundle install`
+* `bundle exec rails c`
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Usage
+* See the [Demo](https://github.com/escowles/vdemo/wiki/Demo)
