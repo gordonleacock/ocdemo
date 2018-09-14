@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<div>
+  <p><b>Title</b></p>
+  <p><%= @helmet.title.first %></p>
+</div>
+
+<div>
+  <p><b>Creator</b></p>
+  <p><%= @helmet.creator.first %></p>
+</div>
+
+<%= link_to 'Home', '/' %> |
+<%= link_to 'All Helmets', helmets_path %> |
+<%= link_to 'Edit', edit_helmet_path(@helmet) %>

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<div>
+  <p><b>Title</b></p>
+  <p><%= @armor.title.first %></p>
+</div>
+
+<div>
+  <p><b>Members</b></p>
+  <ul>
+    <% if @members %>
+      <% @members.each do |member| %>
+        <li><%= link_to member.title.first, member %></li>
+      <% end %>
+    <% else %>
+      <li><em>No Members</em></li>
+    <% end %>
+  </ul>
+</div>
+
+<%= link_to 'Home', '/' %> |
+<%= link_to 'All Armor', armor_index_path %> |
+<%= link_to 'Edit', edit_armor_path(@armor) %> |
+<%= link_to 'Add Child Helmet', new_child_helmet_path(@armor) %>
