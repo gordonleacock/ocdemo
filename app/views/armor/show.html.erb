@@ -2,7 +2,7 @@
 
 <div>
   <p><b>Title</b></p>
-  <p><%= @armor.title.first %></p>
+  <p><%= @armor.title %></p>
 </div>
 
 <div>
@@ -10,7 +10,7 @@
   <ul>
     <% if @members %>
       <% @members.each do |member| %>
-        <li><%= link_to member.title.first, member %></li>
+        <li><%= link_to member.title, member %></li>
       <% end %>
     <% else %>
       <li><em>No Members</em></li>

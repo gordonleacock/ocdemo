@@ -20,11 +20,11 @@ class HelmetsController < ApplicationController
   end
 
   def create
-    @helmet = metadata_adapter.persister.save(resource: Helmet.new(helmet_params.to_h))
-
     respond_to do |format|
-      if @helmet
+      @change_set = ::HelmetChangeSet.new(Helmet.new).prepopulate!
 
+      @helmet = save(@change_set)
+      if @helmet
         # if we are being created as a child of an Armor instance, make this Helmet a member of it
         if @parent
           @parent.member_ids ||= []
@@ -37,7 +37,7 @@ class HelmetsController < ApplicationController
         format.html { redirect_to destination, notice: 'Helmet was successfully created.' }
         format.json { render :show, status: :created, location: @helmet }
       else
-        format.html { render :new }
+        format.html { flash[:alert] = @change_set.errors.to_h; render :new }
         format.json { render json: @helmet.errors, status: :unprocessable_entity }
       end
     end
@@ -51,7 +51,7 @@ class HelmetsController < ApplicationController
         format.html { redirect_to @helmet, notice: 'Helmet was successfully updated.' }
         format.json { render :show, status: :ok, location: @helmet }
       else
-        format.html { render :edit }
+        format.html { render :edit, alert: @change_set.errors }
         format.json { render json: @change_set.errors, status: :unprocessable_entity }
       end
     end
@@ -79,6 +79,7 @@ class HelmetsController < ApplicationController
     end
 
     def parent_id
+      return unless params[:helmet]
       params[:helmet][:parent_id]
     end
 

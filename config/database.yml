@@ -1,4 +1,4 @@
-development:
+development: &default
   adapter: postgresql
   database: vdemo_development
   encoding: utf8
@@ -9,3 +9,10 @@ development:
   #username:  <%= ENV["VDEMO_DB_USERNAME"] %>
   #password: <%= ENV["VDEMO_DB_PASSWORD"] %>
   #host: <%= ENV["VDEMO_DB_HOST"] %>
+
+test:
+  <<: *default
+  host: <%= ENV["VDEMO_DB_HOST"] %>
+  username: <%= ENV["VDEMO_DB_USERNAME"] %>
+  password: <%= ENV["VDEMO_DB_PASSWORD"] %>
+  database: vdemo_test

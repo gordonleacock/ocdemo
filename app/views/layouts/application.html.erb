@@ -10,6 +10,11 @@
   </head>
 
   <body>
+    <% [:notice, :alert, :error].each do |type| %>
+      <% if flash[type] %>
+        <p><strong><%= type %></strong>: <%= format_flash_message(flash[type]).html_safe %></p>
+      <% end %>
+    <% end %>
     <%= yield %>
   </body>
 </html>

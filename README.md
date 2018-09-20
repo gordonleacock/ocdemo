@@ -12,9 +12,11 @@ This is a simple app created to demonstrate working with [Valkyrie](https://gith
 * `cd vdemo`
 * `bundle install`
 * Edit `config/database.yml` to match local database settings, if needed
-* `bundle exec rake db:create`
-* `bundle exec rake db:migrate`
-* `bundle exec rails c`
+* `bundle exec rake db:create:all`
+* `bundle exec rake db:migrate:all`
+* Console: `bundle exec rails c`
+* Webapp: `bundle exec rails s`
+* Tests: `bundle exec rspec`
 
 ## Usage
 * See the [Demo](https://github.com/escowles/vdemo/wiki/Demo)
