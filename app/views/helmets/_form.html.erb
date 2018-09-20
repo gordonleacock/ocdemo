@@ -1,0 +1,18 @@
+<%= form_with(model: helmet, local: true) do |form| %>
+  <% if @parent_id %>
+    <%= form.hidden_field :parent_id, value: @parent_id %>
+  <% end %>
+  <div>
+    <p>Title</p>
+    <p><%= form.text_field :title %>
+  </div>
+
+  <div>
+    <p>Creators</p>
+    <p><%= form.text_field :creator %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

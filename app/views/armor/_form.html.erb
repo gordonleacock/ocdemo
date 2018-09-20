@@ -1,0 +1,11 @@
+<% form_url = armor.id.present? ? armor_path(armor) : armor_index_path %>
+<%= form_with(url: form_url, model: armor, local: true) do |form| %>
+  <div>
+    <p>Title</p>
+    <p><%= form.text_field :title %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

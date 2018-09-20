@@ -1,3 +1,6 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :armor
+  resources :helmets
+
+  get "/armor/:parent_id/new", to: "helmets#new", as: :new_child_helmet
 end

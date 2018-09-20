@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Armor</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @armor.each do |armor| %>
+      <tr>
+        <td><%= armor.title.first %></td>
+        <td><%= link_to 'Show', armor %></td>
+        <td><%= link_to 'Edit', edit_armor_path(armor) %></td>
+        <td><%= link_to 'Destroy', armor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Home', '/' %> |
+<%= link_to 'New Armor', new_armor_path %>
