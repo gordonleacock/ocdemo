@@ -25,15 +25,9 @@ class HelmetsController < ApplicationController
 
       @helmet = save(@change_set)
       if @helmet
-        # if we are being created as a child of an Armor instance, make this Helmet a member of it
-        if @parent
-          @parent.member_ids ||= []
-          @parent.member_ids << @helmet.id
-          metadata_adapter.persister.save(resource: @parent)
-          destination = armor_path(@parent.id)
-        else
-          destination = @helmet
-        end
+        attach_file(@change_set.file, @helmet) if @change_set.file
+        destination = @parent.nil? ? @helmet : add_to_parent(@helmet)
+
         format.html { redirect_to destination, notice: 'Helmet was successfully created.' }
         format.json { render :show, status: :created, location: @helmet }
       else
@@ -48,6 +42,8 @@ class HelmetsController < ApplicationController
       @change_set = ::HelmetChangeSet.new(@helmet).prepopulate!
 
       if save(@change_set)
+        attach_file(@change_set.file, @helmet) if @change_set.file
+
         format.html { redirect_to @helmet, notice: 'Helmet was successfully updated.' }
         format.json { render :show, status: :ok, location: @helmet }
       else
@@ -73,6 +69,25 @@ class HelmetsController < ApplicationController
       change_set.sync && metadata_adapter.persister.save(resource: change_set.resource)
     end
 
+    # upload file to the storage adpater, and attach id to the resource
+    def attach_file(file, resource)
+      # delete any existing file
+      storage_adapter.delete(id: resource.file_identifiers.first) if resource.file_identifiers.first
+
+      uploaded_file = storage_adapter.upload(file: file, resource: resource,
+                                             original_filename: file.original_filename)
+      resource.file_identifiers = [{file_id: uploaded_file.id, original_filename: file.original_filename, updated_at: DateTime.now.utc}]
+      metadata_adapter.persister.save(resource: resource)
+    end
+
+    # if we are being created as a child of an Armor instance, make this Helmet a member of it
+    def add_to_parent(helmet)
+      @parent.member_ids ||= []
+      @parent.member_ids << helmet.id
+      metadata_adapter.persister.save(resource: @parent)
+      armor_path(@parent.id)
+    end
+
     # load the parent resource, if specified
     def set_parent
       @parent ||= metadata_adapter.query_service.find_by(id: parent_id) if parent_id
@@ -88,10 +103,14 @@ class HelmetsController < ApplicationController
     end
 
     def helmet_params
-      params.require(:helmet).permit(:id, :title, :creator)
+      params.require(:helmet).permit(:id, :title, :creator, :file)
     end
 
     def metadata_adapter
       Valkyrie.config.metadata_adapter
+    end
+
+    def storage_adapter
+      Valkyrie.config.storage_adapter
     end
 end

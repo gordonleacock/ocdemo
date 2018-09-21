@@ -12,6 +12,14 @@
     <p><%= form.text_field :creator %>
   </div>
 
+  <div>
+    <p>Image</p>
+    <% if helmet && helmet.file_identifiers.first %>
+      <p>file: <%= helmet.file_identifiers.first %>
+    <% end %>
+    <p><%= form.file_field :file, accept: 'image/png,image/gif,image/jpeg' %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
