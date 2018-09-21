@@ -14,7 +14,7 @@
   <tbody>
     <% @helmets.each do |helmet| %>
       <tr>
-        <td><%= helmet.title.first %></td>
+        <td><%= helmet.title %></td>
         <td><%= helmet.creator.first %></td>
         <td><%= link_to 'Show', helmet %></td>
         <td><%= link_to 'Edit', edit_helmet_path(helmet) %></td>

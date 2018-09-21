@@ -17,14 +17,15 @@ class ArmorController < ApplicationController
   end
 
   def create
-    @armor = metadata_adapter.persister.save(resource: Armor.new(armor_params.to_h))
-
     respond_to do |format|
+      @change_set = ::ArmorChangeSet.new(Armor.new).prepopulate!
+
+      @armor = save(@change_set)
       if @armor
         format.html { redirect_to @armor, notice: 'Armor was successfully created.' }
         format.json { render :show, status: :created, location: @armor }
       else
-        format.html { render :new }
+        format.html { render :new, alert: @change_set.errors }
         format.json { render json: @armor.errors, status: :unprocessable_entity }
       end
     end
@@ -38,7 +39,7 @@ class ArmorController < ApplicationController
         format.html { redirect_to @armor, notice: 'Armor was successfully updated.' }
         format.json { render :show, status: :ok, location: @armor }
       else
-        format.html { render :edit }
+        format.html { render :edit, alert: @change_set.errors }
         format.json { render json: @change_set.errors, status: :unprocessable_entity }
       end
     end

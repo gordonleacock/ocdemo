@@ -13,7 +13,7 @@
   <tbody>
     <% @armor.each do |armor| %>
       <tr>
-        <td><%= armor.title.first %></td>
+        <td><%= armor.title %></td>
         <td><%= link_to 'Show', armor %></td>
         <td><%= link_to 'Edit', edit_armor_path(armor) %></td>
         <td><%= link_to 'Destroy', armor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
