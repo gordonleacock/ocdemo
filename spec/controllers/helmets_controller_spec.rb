@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe HelmetsController do
   let(:metadata_adapter) { Valkyrie.config.metadata_adapter }
+  let(:storage_adapter) { Valkyrie.config.storage_adapter }
   let(:persister) { metadata_adapter.persister }
   let(:query_service) { metadata_adapter.query_service }
   let(:saved_helmet) { persister.save(resource: Helmet.new(title: 'Tarnhelm')) }
@@ -71,6 +72,15 @@ RSpec.describe HelmetsController do
         expect(created.title).to eq('Helm of Awe')
         reloaded_parent = query_service.find_by(id: saved_armor.id)
         expect(reloaded_parent.member_ids).to include(created.id)
+      end
+    end
+    context "with a file" do
+      let(:file_attachment) { fixture_file_upload("spec/fixtures/valkyrie.png") }
+      it "attaches the file to the created helmet resource" do
+        post :create, params: { helmet: { title: 'Helm of Awe', file: file_attachment } }
+        created = assigns(:helmet)
+        expect(created.file_identifiers.first).to be_kind_of Valkyrie::ID
+        expect { storage_adapter.find_by(id: created.file_identifiers.first) }.not_to raise_error ::Valkyrie::StorageAdapter::FileNotFound
       end
     end
   end

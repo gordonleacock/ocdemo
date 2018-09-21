@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <div>
   <p><b>Title</b></p>
   <p><%= @helmet.title %></p>
@@ -8,6 +6,11 @@
 <div>
   <p><b>Creator</b></p>
   <p><%= @helmet.creator.first %></p>
+</div>
+
+<div>
+  <p><b>Image</b></p>
+  <p><%= @helmet.file_identifiers.first %></p>
 </div>
 
 <%= link_to 'Home', '/' %> |
