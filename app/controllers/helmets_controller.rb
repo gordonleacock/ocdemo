@@ -76,7 +76,7 @@ class HelmetsController < ApplicationController
 
       uploaded_file = storage_adapter.upload(file: file, resource: resource,
                                              original_filename: file.original_filename)
-      resource.file_identifiers = [uploaded_file.id]
+      resource.file_identifiers = [{file_id: uploaded_file.id, original_filename: file.original_filename, updated_at: DateTime.now.utc}]
       metadata_adapter.persister.save(resource: resource)
     end
 

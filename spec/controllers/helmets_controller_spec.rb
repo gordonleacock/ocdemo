@@ -79,8 +79,7 @@ RSpec.describe HelmetsController do
       it "attaches the file to the created helmet resource" do
         post :create, params: { helmet: { title: 'Helm of Awe', file: file_attachment } }
         created = assigns(:helmet)
-        expect(created.file_identifiers.first).to be_kind_of Valkyrie::ID
-        expect { storage_adapter.find_by(id: created.file_identifiers.first) }.not_to raise_error ::Valkyrie::StorageAdapter::FileNotFound
+        expect { storage_adapter.find_by(id: created.file_identifiers.first[:file_id]) }.not_to raise_error
       end
     end
   end
