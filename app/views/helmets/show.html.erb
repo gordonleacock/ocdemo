@@ -10,9 +10,17 @@
 
 <div>
   <p><b>Image</b></p>
-  <p><%= @helmet.file_identifiers.first %></p>
+  <% if @helmet.file_identifiers.first %>
+    <p><%= link_to(image_tag(show_file_path(@helmet.id.to_s), style: 'max-width: 300px; max-height: 300px;'),
+                   show_file_path(@helmet.id.to_s)) %></p>
+  <% else %>
+    <p><em>No Image</em></p>
+  <% end %>
 </div>
 
 <%= link_to 'Home', '/' %> |
+<% if @parent %>
+  <%= link_to 'Parent Armor', armor_path(@parent) %> |
+<% end %>
 <%= link_to 'All Helmets', helmets_path %> |
 <%= link_to 'Edit', edit_helmet_path(@helmet) %>
