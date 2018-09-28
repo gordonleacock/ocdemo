@@ -47,6 +47,17 @@ RSpec.describe HelmetsController do
       expect(response.body).to include("Tarnhelm")
       expect(assigns(:helmet)).to eq(saved_helmet)
     end
+
+    context "with a parent" do
+      before do
+        saved_armor.member_ids = [saved_helmet.id]
+        persister.save(resource: saved_armor)
+      end
+      it "finds the parent resource" do
+        get :show, params: { id: saved_helmet.id }
+        expect(assigns(:parent).id).to eq(saved_armor.id)
+      end
+    end
   end
 
   describe "create" do

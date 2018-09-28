@@ -7,6 +7,7 @@ class HelmetsController < ApplicationController
   end
 
   def show
+    @parent = metadata_adapter.query_service.find_parents(resource: @helmet).first
   end
 
   def new
