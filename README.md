@@ -18,5 +18,10 @@ This is a simple app created to demonstrate working with [Valkyrie](https://gith
 * Webapp: `bundle exec rails s`
 * Tests: `bundle exec rspec`
 
+Note: If `rake db:migrate:all` fails, use:
+
+    bundle exec rake db:migrate
+    bundle exec rake db:migrate RAILS_ENV=test
+
 ## Usage
 * See the [Demo](https://github.com/escowles/vdemo/wiki/Demo)
