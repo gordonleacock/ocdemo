@@ -12,7 +12,13 @@
   <body>
     <% [:notice, :alert, :error].each do |type| %>
       <% if flash[type] %>
-        <p><strong><%= type %></strong>: <%= format_flash_message(flash[type]).html_safe %></p>
+        <p><strong><%= type %></strong>:
+        <% if flash[type].is_a?(Hash) %>
+          <%= flash[type].each_pair.map { |k, v| "#{k}: #{sanitize(v)}" }.join(", ").html_safe %>
+        <% else %>
+          <%= flash[type].html_safe %>
+        <% end %>
+        </p>
       <% end %>
     <% end %>
     <%= yield %>
