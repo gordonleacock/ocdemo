@@ -64,6 +64,32 @@ class HelmetsController < ApplicationController
 
   private
 
+    def metadata_adapter
+      Valkyrie.config.metadata_adapter
+    end
+
+    def storage_adapter
+      Valkyrie.config.storage_adapter
+    end
+
+    def helmet_params
+      params.require(:helmet).permit(:id, :title, :creator, :file)
+    end
+
+    def set_helmet
+      @helmet = metadata_adapter.query_service.find_by(id: params[:id])
+    end
+
+    def parent_id
+      return unless params[:helmet]
+      params[:helmet][:parent_id]
+    end
+
+    # load the parent resource, if specified
+    def set_parent
+      @parent ||= metadata_adapter.query_service.find_by(id: parent_id) if parent_id
+    end
+
     # validate and save changes using a change set
     def save(change_set)
       return false unless change_set.validate(helmet_params.to_h)
@@ -87,31 +113,5 @@ class HelmetsController < ApplicationController
       @parent.member_ids << helmet.id
       metadata_adapter.persister.save(resource: @parent)
       armor_path(@parent.id)
-    end
-
-    # load the parent resource, if specified
-    def set_parent
-      @parent ||= metadata_adapter.query_service.find_by(id: parent_id) if parent_id
-    end
-
-    def parent_id
-      return unless params[:helmet]
-      params[:helmet][:parent_id]
-    end
-
-    def set_helmet
-      @helmet = metadata_adapter.query_service.find_by(id: params[:id])
-    end
-
-    def helmet_params
-      params.require(:helmet).permit(:id, :title, :creator, :file)
-    end
-
-    def metadata_adapter
-      Valkyrie.config.metadata_adapter
-    end
-
-    def storage_adapter
-      Valkyrie.config.storage_adapter
     end
 end
