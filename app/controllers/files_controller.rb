@@ -27,20 +27,9 @@ class FilesController < ApplicationController
     end
 
     def send_content
-      prepare_file_headers
-      send_file(binary_file.disk_path, filename: original_filename, disposition: :inline)
-    end
-
-    # Copied from hydra-head and adjusted to handle the fact that we don't have a
-    # modified_date in Valkyrie yet.
-    def prepare_file_headers
-      response.headers["Content-Length"] ||= binary_file.size.to_s
-      # Prevent Rack::ETag from calculating a digest over body
+      response.headers["Content-Length"] = binary_file.size.to_s
       response.headers["Last-Modified"] = updated_at
-    end
-
-    def binary_file
-      @binary_file ||= storage_adapter.find_by(id: file_desc[:file_id])
+      send_file(binary_file.disk_path, filename: original_filename, disposition: :inline)
     end
 
     def resource
@@ -51,6 +40,10 @@ class FilesController < ApplicationController
 
     def file_desc
       resource.file_identifiers.first
+    end
+
+    def binary_file
+      @binary_file ||= storage_adapter.find_by(id: file_desc[:file_id])
     end
 
     def original_filename
