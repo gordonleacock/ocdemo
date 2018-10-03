@@ -54,10 +54,17 @@ class ArmorController < ApplicationController
   end
 
   private
-    # validate and save changes using a change set
-    def save(change_set)
-      return false unless change_set.validate(armor_params.to_h)
-      change_set.sync && metadata_adapter.persister.save(resource: change_set.resource)
+
+    def metadata_adapter
+      Valkyrie.config.metadata_adapter
+    end
+
+    def armor_params
+      params.require(:armor).permit(:id, :title, :member_ids)
+    end
+
+    def set_armor
+      @armor = metadata_adapter.query_service.find_by(id: params[:id])
     end
 
     # load the member objects, if any
@@ -65,15 +72,9 @@ class ArmorController < ApplicationController
       @members = metadata_adapter.query_service.find_many_by_ids(ids: @armor.member_ids) unless @armor.member_ids.empty?
     end
 
-    def set_armor
-      @armor = metadata_adapter.query_service.find_by(id: params[:id])
-    end
-
-    def armor_params
-      params.require(:armor).permit(:id, :title, :member_ids)
-    end
-
-    def metadata_adapter
-      Valkyrie.config.metadata_adapter
+    # validate and save changes using a change set
+    def save(change_set)
+      return false unless change_set.validate(armor_params.to_h)
+      change_set.sync && metadata_adapter.persister.save(resource: change_set.resource)
     end
 end
