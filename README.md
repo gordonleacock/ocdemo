@@ -22,3 +22,11 @@ This is a simple app created to demonstrate working with [Valkyrie](https://gith
 
 ## Usage
 * See the [Demo](https://github.com/escowles/vdemo/wiki/Demo)
+
+
+## License
+Valkyrie is available under [the Apache 2.0 license](LICENSE).
+
+
+## Contributing
+Bug reports and pull requests are welcome on GitHub at https://github.com/escowles/vdemo/
