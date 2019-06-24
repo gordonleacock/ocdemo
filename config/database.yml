@@ -6,9 +6,9 @@ development: &default
   pool: 30
   reaping_frequency: 20
   timeout: 5000
-  #username:  <%= ENV["VDEMO_DB_USERNAME"] %>
-  #password: <%= ENV["VDEMO_DB_PASSWORD"] %>
-  #host: <%= ENV["VDEMO_DB_HOST"] %>
+  username:  <%= ENV["VDEMO_DB_USERNAME"] %>
+  password: <%= ENV["VDEMO_DB_PASSWORD"] %>
+  host: <%= ENV["VDEMO_DB_HOST"] %>
 
 test:
   <<: *default

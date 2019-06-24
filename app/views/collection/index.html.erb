@@ -1,0 +1,26 @@
+<h1>Collections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @collection.each do |coll| %>
+      <tr>
+        <td><%= coll.title %></td>
+        <td><%= link_to 'Show', coll %></td>
+        <td><%= link_to 'Edit', edit_collection_path(coll) %></td>
+        <td><%= link_to 'Destroy', coll, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Home', '/' %> |
+<%= link_to 'New Collection', new_collection_path %>

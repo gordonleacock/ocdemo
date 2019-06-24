@@ -1,0 +1,13 @@
+<% form_url = (collection.blank? || collection.id.blank?) ? collection_index_path : collection_path(collection)  %>
+<%= form_with(url: form_url, model: collection, local: true) do |form| %>
+  <div>
+    <p>Title</p>
+    <p><%= form.text_field :title %>
+    <p>Collection ID</p>
+    <p><%= form.text_field :coll_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

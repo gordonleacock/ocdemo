@@ -1,0 +1,22 @@
+<div>
+  <p><b>Title</b></p>
+  <p><%= @collection.title %></p>
+</div>
+
+<div>
+  <p><b>Members</b></p>
+  <ul>
+    <% if @members %>
+      <% @members.each do |member| %>
+        <li><%= link_to member.title, member %></li>
+      <% end %>
+    <% else %>
+      <li><em>No Members</em></li>
+    <% end %>
+  </ul>
+</div>
+
+<%= link_to 'Home', '/' %> |
+<%= link_to 'All Collections', collection_index_path %> |
+<%= link_to 'Edit', edit_collection_path(@collection) %> |
+<%= link_to 'Add Child Item', new_child_item_path(@collection) %>
